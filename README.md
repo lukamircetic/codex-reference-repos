@@ -22,7 +22,13 @@ codex plugin marketplace add lukamircetic/codex-reference-repos
 codex plugin add codex-reference-repos@reference-repos
 ```
 
-Example `references.toml`:
+After install, ask Codex to add a reference to your project:
+
+```text
+$reference-repos Add this repo to the project references https://github.com/Effect-TS/effect-smol.git
+```
+
+The `references.toml` will look something like this:
 
 ```toml
 [references.effect]
@@ -30,10 +36,9 @@ repository = "https://github.com/Effect-TS/effect-smol.git"
 description = "Use for referencing effect best practice patterns"
 ```
 
-After setup, ask Codex to use the references:
-
+Now you can reference it using the skill:
 ```text
-$reference-repos Add this repo to the project references https://github.com/Effect-TS/effect-smol.git
+$reference-repos can you double check we're following the patterns from the reference repos
 ```
 
 Repos are cloned with `git clone --depth 1` using the remote default branch. Cached repos are saved outside your project: macOS uses `~/Library/Caches/codex-reference-repos`, Linux uses `${XDG_CACHE_HOME:-$HOME/.cache}/codex-reference-repos`, and Windows uses `%LOCALAPPDATA%\codex-reference-repos\Cache`. Existing valid clones are reused; the plugin only refreshes when you explicitly ask.
