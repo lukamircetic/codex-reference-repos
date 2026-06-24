@@ -1,41 +1,44 @@
-# Codex Reference Repos
+# Reference Repos
 
-Codex Reference Repos is a Codex skill plugin for project-declared reference repositories.
+## What this is
 
-The goal is to let a team check in a small `references.toml` file while keeping the referenced repositories out of the main repository. The skill tells Codex how to prepare shallow local clones in the OS cache and inspect them as read-only examples.
+- A Codex plugin for checked-in `references.toml` files that tell agents which remote repos to inspect as implementation examples.
+- It keeps reference repos out of your project history by cloning shallow, read-only copies into the OS user cache.
+- It is intentionally skill-only for v1: no MCP server, no custom CLI, and no background refresh behavior.
 
-## V1 Shape
+## Setup
 
-```toml
-[references.kactis_ai]
-repository = "https://github.com/Kactis/kactis-ai.git"
-description = "Use for Kactis AI implementation patterns."
-```
-
-V1 intentionally keeps the contract small:
-
-- root-level `references.toml`
-- remote Git repositories only
-- any cloneable Git URL
-- no branch or ref field
-- clone the remote default branch with `--depth 1`
-- OS cache for cloned references
-- direct Codex inspection through normal filesystem tools after prepare
-- no MCP server or custom CLI in v1
-
-See [docs/reference-repos-plugin-plan.md](docs/reference-repos-plugin-plan.md) for the current design notes.
-
-## Repository Layout
+Paste this prompt into your agent to help set this up in a project:
 
 ```text
-.agents/plugins/marketplace.json
-plugins/codex-reference-repos/
-  .codex-plugin/plugin.json
-  skills/reference-repos/SKILL.md
+Set up the Codex Reference Repos plugin for this repository and help me get started:
+https://raw.githubusercontent.com/lukamircetic/codex-reference-repos/refs/heads/main/README.md
 ```
 
-The repo-level marketplace points Codex at `plugins/codex-reference-repos`.
+Commands to install the plugin:
 
-## Status
+```bash
+codex plugin marketplace add lukamircetic/codex-reference-repos
+codex plugin add codex-reference-repos@reference-repos
+```
 
-This is a skill-only scaffold. The plugin manifest, marketplace entry, plan, and skill are in place.
+Example `references.toml`:
+
+```toml
+[references.effect]
+repository = "https://github.com/Effect-TS/effect-smol.git"
+description = "Use for referencing effect best practice patterns"
+```
+
+After setup, ask Codex to use the references:
+
+```text
+$reference-repos Add this repo to the project references https://github.com/Effect-TS/effect-smol.git
+```
+
+Repos are cloned with `git clone --depth 1` using the remote default branch. Cached repos are saved outside your project: macOS uses `~/Library/Caches/codex-reference-repos`, Linux uses `${XDG_CACHE_HOME:-$HOME/.cache}/codex-reference-repos`, and Windows uses `%LOCALAPPDATA%\codex-reference-repos\Cache`. Existing valid clones are reused; the plugin only refreshes when you explicitly ask.
+
+
+## Inspiration
+
+Inspired by opencode references, check them out: https://opencode.ai/docs/references/
