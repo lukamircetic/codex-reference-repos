@@ -1,0 +1,36 @@
+{
+  "name": "codex-reference-repos",
+  "version": "0.1.0+codex.20260622135500",
+  "description": "Sync project reference repositories into a local cache for Codex to inspect.",
+  "author": {
+    "name": "Reference Repos Contributors"
+  },
+  "homepage": "https://github.com/lukamircetic/codex-reference-repos",
+  "repository": "https://github.com/lukamircetic/codex-reference-repos.git",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "reference-repos",
+    "repositories",
+    "workflow"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Codex Reference Repos",
+    "shortDescription": "Use checked-in reference repos as local Codex context.",
+    "longDescription": "Codex Reference Repos prepares project-declared Git repositories in an OS cache so Codex can inspect them as read-only implementation references.",
+    "developerName": "Reference Repos Contributors",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Prepare this project's reference repos.",
+      "Use the reference repos to study this feature.",
+      "Add a reference repo for this project."
+    ],
+    "brandColor": "#2563EB"
+  }
+}
